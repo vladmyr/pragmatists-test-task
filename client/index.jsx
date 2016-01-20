@@ -2,15 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import configureStore from "./store/configureStore";
-//import Router, {Route} from "react-router";
+import Router, {Route} from "react-router";
 import Backbone from "backbone";
 
 import User from "./models/user"
 import UsersCollection from "./collections/users";
 import * as userActions from "./actions/user";
-import {App} from "./views/components/App";
-
-const store = configureStore();
+import App from "./views/components/App";
+import {UserContainer} from "./views/components/User";
 
 let list = [{
     id: "0",
@@ -42,6 +41,9 @@ let list = [{
     email: "user007@example.com"
 }];
 
+const store = configureStore({});
+store.dispatch(userActions.setUserList(list));
+
 // --
 //let user = new User({ id: 1 });
 //
@@ -66,20 +68,27 @@ let list = [{
 //});
 // --
 
-//const routes = <Route component={App}>
-//    <Route path="/" />
-//</Route>;
+const routes = <Route component={App}>
+    <Route path="/" component={UserContainer}/>
+</Route>;
 
-const render = () => {
-    console.log("render...");
-    ReactDOM.render(
-        <Provider store={store}>
-            <App list={store.getState().list} />
-        </Provider>,
-        document.getElementById("app")
-    );
-};
+ReactDOM.render(
+    <Provider store={store}>
+        <Router>{routes}</Router>
+    </Provider>,
+    document.getElementById("app")
+);
 
-store.subscribe(render);
-render();
-store.dispatch(userActions.setUserList(list));
+//const render = () => {
+//    console.log("render...");
+//    ReactDOM.render(
+//        <Provider store={store}>
+//            <App list={store.getState().list} />
+//        </Provider>,
+//        document.getElementById("app")
+//    );
+//};
+//
+//store.subscribe(render);
+//render();
+//store.dispatch(userActions.setUserList(list));

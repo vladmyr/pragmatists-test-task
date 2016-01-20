@@ -7,10 +7,10 @@ import reducer from "../reducers";
 // store.dispatch({});
 // store.subscribe(() => {});
 
-//const createStoreWithMiddleware = applyMiddleware()
+const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 export default function configureStore(initialState){
-    const store = createStore(reducer, initialState);
+    const store = createStoreWithMiddleware(reducer, initialState);
 
     if (module.hot) {
         // Enable Webpack hot module replacement for reducers

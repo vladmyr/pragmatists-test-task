@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 
+import * as userActions from "../../actions/user";
 import {UserListItem} from "./UserListItem";
 
 export const UserList = React.createClass({
@@ -9,7 +10,7 @@ export const UserList = React.createClass({
             <ul>
             {this.props.list
                 ? this.props.list.map((item, index) => {
-                    return <UserListItem item={item} key={index} />
+                    //return <UserListItem item={item} key={index} />
                 })
                 : <li>There are no records</li>}
             </ul>
@@ -18,10 +19,13 @@ export const UserList = React.createClass({
     }
 });
 
-const mapStateToProps = (state) => {
+let mapStateToProps = (state) => {
     return {
         list: state.list
     }
 };
 
-export const UserListContainer = {};
+export const UserListContainer = connect(
+    mapStateToProps,
+    userActions
+)(UserList);

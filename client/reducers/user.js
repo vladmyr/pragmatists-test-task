@@ -12,14 +12,12 @@ const setList = (state, list) => {
 };
 
 export default (state = Map(), action) => {
-    let newState = state;
+    console.warn("[reducer]", state, action);
 
     switch(action.type){
         case userActions.LIST_USERS:
-            newState = setList(state, action.list);
+            return setList(state, action.list);
     }
 
-    console.warn("[reducer]", action.type, newState);
-
-    return newState;
+    return state;
 };

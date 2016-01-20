@@ -6,6 +6,11 @@ export const UI_POPOVER_MANAGE_USER = "UI_USER_MANAGE_POPOVER";
 export const UI_POPUP_CREATE_USER = "UI_POPUP_CREATE_USER";
 export const UI_POPUP_UPDATE_USER = "UI_POPUP_UPDATE_USER";
 
+/**
+ * Action creator. Set list of users
+ * @param   {Array.<Object>}    list
+ * @returns {Object}
+ */
 export function setUserList(list){
     return {
         type: LIST_USERS,

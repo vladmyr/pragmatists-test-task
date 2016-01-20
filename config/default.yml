@@ -1,7 +1,12 @@
 env:
   - dev
 dir:
-  controllers: /controllers
+  app: /app
+  controllers: /app/controllers
+file:
+  app: app
+  controllers:
+    - users
 httpServer:
   alias: API Server
   routeRoot: /

@@ -2,7 +2,7 @@
   "name": "pragmatists_test_task",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/main.js",
   "scripts": {
     "server-start": "node ./server/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,8 +19,10 @@
     "mocha": "^2.3.4"
   },
   "dependencies": {
+    "bluebird": "^3.1.1",
     "config": "^1.19.0",
     "express": "^4.13.3",
+    "js-yaml": "^3.5.2",
     "underscore": "^1.8.3"
   }
 }

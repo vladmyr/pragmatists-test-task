@@ -3,12 +3,16 @@ env:
 dir:
   app: /app
   controllers: /app/controllers
+  client: /client
+  public: /public
 file:
   app: app
   controllers:
     - users
+  client:
+    index: index.jsx
 httpServer:
   alias: API Server
   routeRoot: /
   protocol: http
-  port: 8081
+  port: 8080

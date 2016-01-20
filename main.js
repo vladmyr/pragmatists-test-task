@@ -14,12 +14,16 @@ var Application = require(path.join(
 var app = new Application(config, router);
 var eApp = express();
 
+eApp.use(express.static(path.join(
+    config.dir.root,
+    config.dir.public
+)));
 app.initControllers();
-
 eApp.use(config.httpServer.routeRoot, app.router);
 
+// 404
 eApp.use(function(req, res){
-    res.sendStatus(404);
+    return res.status(404).end();
 });
 
 var server = eApp.listen(config.httpServer.port, function(){

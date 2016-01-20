@@ -1,0 +1,9 @@
+env:
+  - dev
+dir:
+  controllers: /controllers
+httpServer:
+  alias: API Server
+  routeRoot: /
+  protocol: http
+  port: 8081

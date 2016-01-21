@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import configureStore from "./store/configureStore";
 import Router, {Route} from "react-router";
 import Backbone from "backbone";
+import {Map, List} from "immutable";
 
 import User from "./models/user"
 import UsersCollection from "./collections/users";
@@ -11,7 +12,7 @@ import * as userActions from "./actions/user";
 import App from "./views/components/App";
 import {UserContainer} from "./views/components/User";
 
-let list = [{
+let list = List([{
     id: "0",
     name: "user001",
     email: "user001@example.com"
@@ -39,13 +40,13 @@ let list = [{
     id: "6",
     name: "user007",
     email: "user007@example.com"
-}];
+}]);
 
-const store = configureStore(userActions.setUserList(list));
-
+const store = configureStore(Map({}));
 store.subscribe(() => {
     console.warn("[state]", store.getState());
 });
+store.dispatch(userActions.setUserList(list));
 // --
 //let user = new User({ id: 1 });
 //

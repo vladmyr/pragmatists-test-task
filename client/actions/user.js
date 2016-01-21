@@ -66,7 +66,7 @@ export function deleteUser(id){
  */
 export function uiPopupCreateUser(){
     return {
-        type: UI_POPUP_CREATE_USER
+        type: UI_POPUP_OPEN
     }
 }
 
@@ -76,11 +76,13 @@ export function uiPopupCreateUser(){
  */
 export function uiPopupUpdateUser(user = {}){
     return {
-        type: UI_POPUP_UPDATE_USER,
+        type: UI_POPUP_OPEN,
         user: user
     }
 }
 
 export function uiPopupClose(){
-
+    return {
+        type: UI_POPUP_CLOSE
+    }
 }

@@ -18,7 +18,7 @@ export const UserList = React.createClass({
 
 let mapStateToProps = (state) => {
     return {
-        list: state.list
+        list: state.get("list").toArray()
     }
 };
 

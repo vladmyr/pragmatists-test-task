@@ -41,6 +41,13 @@ const uiPopupUser = (state = Map({}), isVisible = false, user = {}) => {
     }));
 };
 
+const uiPopover = (state = Map({}), isVisible = false, index = -1) => {
+    return state.set("popover", Map({
+        isVisible: isVisible,
+        index: index
+    }));
+};
+
 export default function userReducer(state = Map({}), action){
     switch(action.type){
         case userActions.LIST_USERS:
@@ -51,6 +58,10 @@ export default function userReducer(state = Map({}), action){
             return uiPopupUser(state, true, action.user);
         case userActions.UI_POPUP_CLOSE:
             return uiPopupUser(state, false);
+        case userActions.UI_POPOVER_OPEN:
+            return uiPopover(state, true, action.index);
+        case userActions.UI_POPOVER_CLOSE:
+            return uiPopover(state, false);
     }
 
     return state;

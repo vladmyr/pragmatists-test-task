@@ -57,10 +57,6 @@ export function deleteUser(id){
     }
 }
 
-//export function uiPopoverManageUser(){
-//
-//}
-
 /**
  * Action creator. Render popup window
  */
@@ -81,8 +77,30 @@ export function uiPopupUpdateUser(user = {}){
     }
 }
 
+/**
+ * Action creator. Close popup window
+ */
 export function uiPopupClose(){
     return {
         type: UI_POPUP_CLOSE
+    }
+}
+
+/**
+ * Action creator. Open popover window
+ */
+export function uiPopoverOpen(index = -1){
+    return {
+        type: UI_POPOVER_OPEN,
+        index: index
+    }
+}
+
+/**
+ * Action creator. Close popover window
+ */
+export function uiPopoverClose(){
+    return {
+        type: UI_POPOVER_CLOSE
     }
 }

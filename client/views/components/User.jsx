@@ -11,7 +11,6 @@ export const User = React.createClass({
         return <div>
             <UserList {...this.props} />
             <button onClick={() => this.props.uiPopupCreateUser()}>Create new</button>
-            <button onClick={() => this.props.createUser({ name: "superuser", email: "superuser@example.com" })}>Autocreate item</button>
             <UserPopup {...this.props} />
         </div>
     }

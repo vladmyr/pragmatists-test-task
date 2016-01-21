@@ -13,31 +13,24 @@ import App from "./views/components/App";
 import {UserContainer} from "./views/components/User";
 
 let list = List([{
-    id: "0",
     name: "user001",
     email: "user001@example.com"
 },{
-    id: "1",
     name: "user002",
     email: "user002@example.com"
 },{
-    id: "2",
     name: "user003",
     email: "user003@example.com"
 },{
-    id: "3",
     name: "user004",
     email: "user004@example.com"
 },{
-    id: "4",
     name: "user005",
     email: "user005@example.com"
 },{
-    id: "5",
     name: "user006",
     email: "user006@example.com"
 },{
-    id: "6",
     name: "user007",
     email: "user007@example.com"
 }]);

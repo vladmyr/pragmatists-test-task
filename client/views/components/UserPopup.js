@@ -1,6 +1,8 @@
 import {Map, List} from "immutable";
 import React from "react";
 
+import * as _ from "underscore";
+
 export const UserPopup = React.createClass({
     //onSubmit: (e) => {
     //    e.preventDefault();
@@ -15,12 +17,18 @@ export const UserPopup = React.createClass({
     //    e.preventDefault();
     //    return this.props.uiPopupClose();
     //},
-    getInitialState: function(){
+    getInitialStateValues: function(){
         return {
-            id: this.props.popup.user.id || 0,
-            name: this.props.popup.user.name || "",
-            email: this.props.popup.user.email || ""
+            name: "",
+            email: ""
         }
+    },
+    getInitialState: function(){
+        return _.extend(
+            this.getInitialStateValues(),
+            _.has(this.props, "popup", "user")
+                ? this.props.popup.user
+                : {});
     },
     handleChange: function(e){
         this.setState(function(){
@@ -32,15 +40,29 @@ export const UserPopup = React.createClass({
     onSubmit: function(e){
         e.preventDefault();
 
-        console.log(this.state);
+        // add validation
+
+        this.props.createUser(this.state);
+        this.onCancel();
+    },
+    resetState: function(){
+        this.replaceState(this.getInitialStateValues());
+    },
+    onCancel: function(){
+        this.resetState();
+        this.props.uiPopupClose();
     },
     render: function(){
-        return <form onSubmit={this.onSubmit}>
-            <input type="hidden" name="id" ref="id" onChange={this.handleChange} />
-            <input type="text" name="name" ref="name" onChange={this.handleChange} />
-            <input type="text" name="email" ref="email" value={this.state.email} onChange={this.handleChange} />
-            <button type="submit">Save</button>
-        </form>
+        return (this.props.popup && this.props.popup.isVisible)
+            ? <div className="popup">
+                <form onSubmit={this.onSubmit}>
+                    <input type="text" name="name" ref="name" value={this.state.name} onChange={this.handleChange} />
+                    <input type="text" name="email" ref="email" value={this.state.email} onChange={this.handleChange} />
+                    <button type="submit">Save</button>
+                    <button type="button" onClick={() => this.onCancel()}>Cancel</button>
+                </form>
+            </div>
+            : null
     }
 });
 

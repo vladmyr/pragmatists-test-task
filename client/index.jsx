@@ -41,9 +41,11 @@ let list = [{
     email: "user007@example.com"
 }];
 
-const store = configureStore({});
-store.dispatch(userActions.setUserList(list));
+const store = configureStore(userActions.setUserList(list));
 
+store.subscribe(() => {
+    console.warn("[state]", store.getState());
+});
 // --
 //let user = new User({ id: 1 });
 //

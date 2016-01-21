@@ -2,9 +2,10 @@ export const LIST_USERS = "LIST_USERS";
 export const CREATE_USER = "CREATE_USER";
 export const UPDATE_USER = "UPDATE_USER";
 export const DELETE_USER = "DELETE_USER";
-export const UI_POPOVER_MANAGE_USER = "UI_USER_MANAGE_POPOVER";
-export const UI_POPUP_CREATE_USER = "UI_POPUP_CREATE_USER";
-export const UI_POPUP_UPDATE_USER = "UI_POPUP_UPDATE_USER";
+export const UI_POPOVER_OPEN = "UI_POPOVER_OPEN";
+export const UI_POPOVER_CLOSE = "UI_POPOVER_CLOSE";
+export const UI_POPUP_OPEN = "UI_POPUP_OPEN";
+export const UI_POPUP_CLOSE = "UI_POPUP_CLOSE";
 
 /**
  * Action creator. Set list of users
@@ -78,4 +79,8 @@ export function uiPopupUpdateUser(user = {}){
         type: UI_POPUP_UPDATE_USER,
         user: user
     }
+}
+
+export function uiPopupClose(){
+
 }

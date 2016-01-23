@@ -4,19 +4,6 @@ import React from "react";
 import * as _ from "underscore";
 
 export const UserPopup = React.createClass({
-    //onSubmit: (e) => {
-    //    e.preventDefault();
-    //    let formData = {
-    //        id: React.findDOMNode(this.refs.id).value,
-    //        name: React.findDOMNode(this.refs.name).value,
-    //        email: React.findDOMNode(this.refs.email).value
-    //    };
-    //    console.warn("[popup]", formData, this);
-    //},
-    //onClose: (e) => {
-    //    e.preventDefault();
-    //    return this.props.uiPopupClose();
-    //},
     getInitialStateValues: function(){
         return {
             name: "",
@@ -52,11 +39,15 @@ export const UserPopup = React.createClass({
         this.resetState();
         this.props.uiPopupClose();
     },
+    getEmail() {
+        console.warn("[getEmail]", this.props);
+        return this.props.user.email || this.state.user.email
+    },
     render: function(){
         return (this.props.popup && this.props.popup.isVisible)
             ? <div className="popup">
                 <form onSubmit={this.onSubmit}>
-                    <input type="text" name="name" ref="name" value={this.state.name} onChange={this.handleChange} />
+                    <input type="text" name="name" ref="name" value={this.getEmail()} onChange={this.handleChange} />
                     <input type="text" name="email" ref="email" value={this.state.email} onChange={this.handleChange} />
                     <button type="submit">Save</button>
                     <button type="button" onClick={() => this.onCancel()}>Cancel</button>
@@ -65,15 +56,3 @@ export const UserPopup = React.createClass({
             : null
     }
 });
-
-//<div>
-//            {(this.props.popup && this.props.popup.isVisible)
-//                ? <div className="popup">
-//                <form>
-//                    <input type="hidden" name="id" ref="id" value={this.props.popup.user.id || 0} onChange={this.handleChange} />
-//                    <input type="text" name="name" ref="name" value={this.props.popup.user.name || ""} onChange={this.handleChange} />
-//                    <input type="text" name="email" ref="email" value={this.props.popup.user.email || ""} onChange={this.handleChange} />
-//                </form>
-//            </div>
-//                : null}
-//</div>

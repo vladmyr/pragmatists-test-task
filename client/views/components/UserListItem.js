@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 
-import {UserListItemPopover} from "./UserListItemPopover.js"
+import {UserListItemPopover} from "./UserListItemPopover";
 import * as userActions from "../../actions/user";
 
 export const UserListItem = React.createClass({
@@ -18,11 +18,11 @@ export const UserListItem = React.createClass({
 
 let mapStateToProps = (state) => {
     return {
-        list: state.get("list")
+        list: state.get("list").toArray()
     }
 };
 
-export const UserListIntemContainer = connect(
+export const UserListItemContainer = connect(
     mapStateToProps,
     userActions
 )(UserListItem);

@@ -5,7 +5,7 @@ import * as userActions from "../actions/user";
  * Sets the list of users
  * @param state
  * @param   {Array<Object>|Immutable.List}  list
- * @returns {Object}
+ * @returns {Immutable.Map}
  */
 const setList = (state = Map({}), list = List()) => {
     return state
@@ -13,14 +13,32 @@ const setList = (state = Map({}), list = List()) => {
 };
 
 /**
- * Add an item to the list
+ * Add user to the list
  * @param state
  * @param item
+ * @returns {Immutable.Map}
  */
 const addUser = (state = Map({}), item) => {
     return state.set("list", state.get("list").push(item))
 };
 
+/**
+ * Update user information
+ * @param state
+ * @param index
+ * @param user
+ * @returns {Immutable.Map}
+ */
+const updateUser = (state = Map({}), index, user) => {
+    return state.setIn(["list", index], user);
+};
+
+/**
+ * Delete user from the list
+ * @param state
+ * @param index
+ * @returns {Immutable.Map}
+ */
 const deleteUser = (state = Map({}), index) => {
     return state;
 };
@@ -28,8 +46,9 @@ const deleteUser = (state = Map({}), index) => {
 /**
  * Manage popup window
  * @param {Object}   state
- * @param {Boolean}         isVisible
- * @param {Object}          user
+ * @param {Boolean}  isVisible
+ * @param {Object}   user
+ * @returns {Immutable.Map}
  * @returns {Object}
  */
 const uiPopupUser = (state = Map({}), isVisible = false, user = {}) => {
@@ -41,11 +60,22 @@ const uiPopupUser = (state = Map({}), isVisible = false, user = {}) => {
     }));
 };
 
+/**
+ * Manage table item action menu visibility
+ * @param state
+ * @param isVisible
+ * @param index
+ * @returns {Immutable.Map}
+ */
 const uiPopover = (state = Map({}), isVisible = false, index = -1) => {
-    return state.set("popover", Map({
+    let newState = state.set("popover", Map({
         isVisible: isVisible,
         index: index
     }));
+
+    console.log(newState.get("popover").toObject());
+
+    return newState;
 };
 
 export default function userReducer(state = Map({}), action){
@@ -54,6 +84,10 @@ export default function userReducer(state = Map({}), action){
             return uiPopupUser(setList(state, action.list));
         case userActions.CREATE_USER:
             return addUser(state, action.user);
+        case userActions.UPDATE_USER:
+            return updateUser(state, action.index, action.user);
+        case userActions.DELETE_USER:
+            return deleteUser(state, action.index);
         case userActions.UI_POPUP_OPEN:
             return uiPopupUser(state, true, action.user);
         case userActions.UI_POPUP_CLOSE:
@@ -62,6 +96,7 @@ export default function userReducer(state = Map({}), action){
             return uiPopover(state, true, action.index);
         case userActions.UI_POPOVER_CLOSE:
             return uiPopover(state, false);
+
     }
 
     return state;

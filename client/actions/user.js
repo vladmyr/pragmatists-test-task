@@ -68,11 +68,13 @@ export function uiPopupCreateUser(){
 
 /**
  * Action creator. Render popup window
+ * @param index
  * @param user
  */
-export function uiPopupUpdateUser(user = {}){
+export function uiPopupUpdateUser(index = -1, user = {}){
     return {
         type: UI_POPUP_OPEN,
+        index: index,
         user: user
     }
 }

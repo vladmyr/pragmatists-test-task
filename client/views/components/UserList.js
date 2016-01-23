@@ -1,8 +1,8 @@
 import React from "react";
 import {connect} from "react-redux";
 
+import {UserListItemContainer} from "./UserListItem";
 import * as userActions from "../../actions/user";
-import {UserListItem} from "./UserListItem";
 
 export const UserList = React.createClass({
     render: function(){
@@ -18,7 +18,7 @@ export const UserList = React.createClass({
                 <tbody>
                     {this.props.list
                         ? this.props.list.map((item, index) => {
-                            return <UserListItem key={index} item={item} index={index} />
+                            return <UserListItemContainer key={index} item={item} index={index} popover={this.props.popover}/>
                         })
                         : <tr><td>There are no records</td></tr>}
                 </tbody>

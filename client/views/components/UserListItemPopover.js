@@ -15,10 +15,10 @@ export const UserListItemPopover = React.createClass({
     },
     render: function(){
         return <div className={"btn-group" + (this.getIsOpened() ? " open" : "")}>
-            <button type="button" className="btn btn-default" onClick={() => this.toggleVisible()}>
+            <button type="button" className="btn btn-xs btn-default" onClick={() => this.toggleVisible()}>
                 <i className="fa fa-cogs"></i>
             </button>
-            <ul className="dropdown-menu">
+            <ul className="dropdown-menu dropdown-menu-right">
                 <li>
                     <a onClick={() => {this.props.uiPopupUpdateUser(this.props.index, this.props.item)}}>Edit</a>
                 </li>

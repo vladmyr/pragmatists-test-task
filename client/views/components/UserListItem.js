@@ -9,7 +9,7 @@ export const UserListItem = React.createClass({
         return <tr data-index={this.props.index}>
             <td>{this.props.item.name}</td>
             <td>{this.props.item.email}</td>
-            <td>
+            <td className="actions">
                 <UserListItemPopover {...this.props} />
             </td>
         </tr>

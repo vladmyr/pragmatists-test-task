@@ -1,6 +1,5 @@
 export const LIST_USERS = "LIST_USERS";
-export const CREATE_USER = "CREATE_USER";
-export const UPDATE_USER = "UPDATE_USER";
+export const UPSERT_USER = "UPSERT_USER";
 export const DELETE_USER = "DELETE_USER";
 export const UI_POPOVER_OPEN = "UI_POPOVER_OPEN";
 export const UI_POPOVER_CLOSE = "UI_POPOVER_CLOSE";
@@ -20,25 +19,13 @@ export function setUserList(list){
 }
 
 /**
- * Action creator. Create new user
+ * Action creator. Create/update new user
  * @param   {Object} user
  * @returns {Object}
  */
-export function createUser(user){
+export function upsertUser(user){
     return {
-        type: CREATE_USER,
-        user: user
-    }
-}
-
-/**
- * Action creator. Update existing user
- * @param   {Object} user
- * @returns {Object}
- */
-export function updateUser(user){
-    return {
-        type: UPDATE_USER,
+        type: UPSERT_USER,
         user: user
     }
 }
@@ -51,9 +38,7 @@ export function updateUser(user){
 export function deleteUser(id){
     return {
         type: DELETE_USER,
-        user: {
-            id: id
-        }
+        id: id
     }
 }
 

@@ -22,7 +22,7 @@ const getIndexOfUserId = function(state, id = 0){
 const setList = (state = Map({}), list = List()) => {
     return state
         .set("list", List(list))
-        .set("isFetching", false);
+        .set("isProcessing", false);
 };
 
 /**
@@ -95,21 +95,17 @@ export default function userReducer(state = Map({}), action){
         case userActions.API_PROCESSING:
             return uiPopupUser(apiProcessing(state));
         case userActions.LIST_USERS:
-            return uiPopupUser(setList(state, action.list));
+            return uiPopupUser(uiPopover(setList(state, action.list)));
         case userActions.UI_POPUP_OPEN:
             return uiPopupUser(uiPopover(state), true, action.user);
         case userActions.UI_POPUP_CLOSE:
-            return uiPopupUser(state, false);
+            return uiPopupUser(state);
         case userActions.UI_POPOVER_OPEN:
             return uiPopover(state, true, action.index);
         case userActions.UI_POPOVER_CLOSE:
             return uiPopover(state);
-        case userActions.API_GET_USERS:
-            return apiProcessing(state);
         case userActions.API_GET_USERS_SUCCESS:
-            return uiPopupUser(setList(state, action.list));
-        case userActions.API_DELETE_USER:
-            return deleteUser(uiPopover(state), action.id);
+            return uiPopupUser(uiPopover(setList(state, action.list)));
     }
 
     return state;

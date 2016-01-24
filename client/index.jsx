@@ -11,9 +11,6 @@ import App from "./views/components/App";
 import {UserContainer} from "./views/components/User";
 
 const store = configureStore(Map({}));
-store.subscribe(() => {
-    console.warn("[state]", store.getState());
-});
 store.dispatch(userActions.apiGetUsersThunk());
 
 const routes = <Route component={App}>

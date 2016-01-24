@@ -3,18 +3,7 @@ import {createStore, applyMiddleware} from "redux";
 import thunkMiddleware from "redux-thunk";
 import userReducer from "../reducers/user";
 
-// const store = createStore(reducer);
-// store.getState();
-// store.dispatch({});
-// store.subscribe(() => {});
-
-const logState = store => next => action => {
-    console.warn("[action]", action);
-    return next(action);
-};
-
 const createStoreWithMiddleware = applyMiddleware(
-    logState,
     thunkMiddleware
 )(createStore);
 

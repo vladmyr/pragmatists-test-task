@@ -4,8 +4,6 @@ var webpack = require("webpack");
 
 module.exports = {
     entry: [
-        //"webpack-dev-server/client?http://localhost:8080",
-        //"webpack/hot/only-dev-server",
         "." + path.join(config.dir.client, config.file.client.index)
     ],
     output: {
@@ -18,19 +16,11 @@ module.exports = {
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
-                //loader: "react-hot!babel"
                 loader: "babel"
             }
         ]
     },
     resolve: {
         extensions: ["", ".js", ".jsx"]
-    },
-    devServer: {
-        //hot: true,
-        contentBase: "." + config.dir.public
     }
-    //plugins: [
-    //    new webpack.HotModuleReplacementPlugin()
-    //]
 };

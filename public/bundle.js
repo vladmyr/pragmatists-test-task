@@ -92,9 +92,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var store = (0, _configureStore2.default)((0, _immutable.Map)({}));
-	store.subscribe(function () {
-	    console.warn("[state]", store.getState());
-	});
 	store.dispatch(userActions.apiGetUsersThunk());
 
 	var routes = _react2.default.createElement(
@@ -20941,21 +20938,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// const store = createStore(reducer);
-	// store.getState();
-	// store.dispatch({});
-	// store.subscribe(() => {});
-
-	var logState = function logState(store) {
-	    return function (next) {
-	        return function (action) {
-	            console.warn("[action]", action);
-	            return next(action);
-	        };
-	    };
-	};
-
-	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(logState, _reduxThunk2.default)(_redux.createStore);
+	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore);
 
 	function configureStore() {
 	    var initialState = arguments.length <= 0 || arguments[0] === undefined ? (0, _immutable.Map)({}) : arguments[0];
@@ -26024,7 +26007,7 @@
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? (0, _immutable.Map)({}) : arguments[0];
 	    var list = arguments.length <= 1 || arguments[1] === undefined ? (0, _immutable.List)() : arguments[1];
 
-	    return state.set("list", (0, _immutable.List)(list)).set("isFetching", false);
+	    return state.set("list", (0, _immutable.List)(list)).set("isProcessing", false);
 	};
 
 	/**
@@ -26109,21 +26092,17 @@
 	        case userActions.API_PROCESSING:
 	            return uiPopupUser(apiProcessing(state));
 	        case userActions.LIST_USERS:
-	            return uiPopupUser(setList(state, action.list));
+	            return uiPopupUser(uiPopover(setList(state, action.list)));
 	        case userActions.UI_POPUP_OPEN:
 	            return uiPopupUser(uiPopover(state), true, action.user);
 	        case userActions.UI_POPUP_CLOSE:
-	            return uiPopupUser(state, false);
+	            return uiPopupUser(state);
 	        case userActions.UI_POPOVER_OPEN:
 	            return uiPopover(state, true, action.index);
 	        case userActions.UI_POPOVER_CLOSE:
 	            return uiPopover(state);
-	        case userActions.API_GET_USERS:
-	            return apiProcessing(state);
 	        case userActions.API_GET_USERS_SUCCESS:
-	            return uiPopupUser(setList(state, action.list));
-	        case userActions.API_DELETE_USER:
-	            return deleteUser(uiPopover(state), action.id);
+	            return uiPopupUser(uiPopover(setList(state, action.list)));
 	    }
 
 	    return state;
@@ -27692,7 +27671,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.API_DELETE_USER_FAILURE = exports.API_UPSERT_USER_FAILURE = exports.API_GET_USERS_SUCCESS = exports.API_GET_USERS_FAILURE = exports.API_GET_USERS = exports.API_PROCESSING = exports.UI_POPUP_CLOSE = exports.UI_POPUP_OPEN = exports.UI_POPOVER_CLOSE = exports.UI_POPOVER_OPEN = exports.LIST_USERS = undefined;
+	exports.API_DELETE_USER_FAILURE = exports.API_UPSERT_USER_FAILURE = exports.API_GET_USERS_FAILURE = exports.API_GET_USERS_SUCCESS = exports.API_PROCESSING = exports.UI_POPUP_CLOSE = exports.UI_POPUP_OPEN = exports.UI_POPOVER_CLOSE = exports.UI_POPOVER_OPEN = exports.LIST_USERS = undefined;
 	exports.apiProcessing = apiProcessing;
 	exports.setUserList = setUserList;
 	exports.uiPopupCreateUser = uiPopupCreateUser;
@@ -27700,7 +27679,6 @@
 	exports.uiPopupClose = uiPopupClose;
 	exports.uiPopoverOpen = uiPopoverOpen;
 	exports.uiPopoverClose = uiPopoverClose;
-	exports.apiGetUsers = apiGetUsers;
 	exports.apiGetUsersSuccess = apiGetUsersSuccess;
 	exports.apiGetUsersFailure = apiGetUsersFailure;
 	exports.apiUpsertUserFailure = apiUpsertUserFailure;
@@ -27733,9 +27711,8 @@
 	var UI_POPUP_OPEN = exports.UI_POPUP_OPEN = "UI_POPUP_OPEN";
 	var UI_POPUP_CLOSE = exports.UI_POPUP_CLOSE = "UI_POPUP_CLOSE";
 	var API_PROCESSING = exports.API_PROCESSING = "API_PROCESSING";
-	var API_GET_USERS = exports.API_GET_USERS = "API_GET_USERS";
-	var API_GET_USERS_FAILURE = exports.API_GET_USERS_FAILURE = "API_GET_USERS_FAILURE";
 	var API_GET_USERS_SUCCESS = exports.API_GET_USERS_SUCCESS = "API_GET_USERS_SUCCESS";
+	var API_GET_USERS_FAILURE = exports.API_GET_USERS_FAILURE = "API_GET_USERS_FAILURE";
 	var API_UPSERT_USER_FAILURE = exports.API_UPSERT_USER_FAILURE = "UPSERT_USER_FAILURE";
 	var API_DELETE_USER_FAILURE = exports.API_DELETE_USER_FAILURE = "DELETE_USER_FAILURE";
 
@@ -27820,16 +27797,6 @@
 	function uiPopoverClose() {
 	    return {
 	        type: UI_POPOVER_CLOSE
-	    };
-	}
-
-	/**
-	 * Action creator. Request the list of users
-	 * @returns {Object}
-	 */
-	function apiGetUsers() {
-	    return {
-	        type: API_GET_USERS
 	    };
 	}
 
@@ -27946,20 +27913,14 @@
 
 	        return new Bluebird.Promise(function (resolve, reject) {
 	            return userModel.destroy({
-	                success: function success(resp) {
-	                    console.warn("[apiDeleteUserThunk] success", resp);
-	                    return resolve(resp);
-	                },
-	                error: function error(resp) {
-	                    console.warn("[apiDeleteUserThunk] error", _arguments);
-	                    return reject(resp);
-	                }
+	                success: resolve,
+	                error: reject
 	            });
-	        }).then(function (resp) {
-	            console.warn(resp);
+	        }).then(function () {
+	            console.warn(_arguments);
 	            return dispatch(apiGetUsersThunk());
 	        }).catch(function (resp) {
-	            console.warn(resp);
+	            console.warn(_arguments);
 	            return dispatch(apiDeleteUserFailure(resp));
 	        });
 	    };
@@ -49614,14 +49575,14 @@
 	                _react2.default.createElement(
 	                    "tbody",
 	                    null,
-	                    this.props.list ? this.props.list.map(function (item, index) {
+	                    this.props.list.length ? this.props.list.map(function (item, index) {
 	                        return _react2.default.createElement(_UserListItem.UserListItemContainer, { key: index, item: item, index: index, popover: _this.props.popover });
 	                    }) : _react2.default.createElement(
 	                        "tr",
 	                        null,
 	                        _react2.default.createElement(
 	                            "td",
-	                            null,
+	                            { colSpan: "3" },
 	                            "There are no records"
 	                        )
 	                    )

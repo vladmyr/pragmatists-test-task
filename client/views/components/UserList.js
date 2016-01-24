@@ -16,11 +16,11 @@ export const UserList = React.createClass({
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.list
+                    {this.props.list.length
                         ? this.props.list.map((item, index) => {
                             return <UserListItemContainer key={index} item={item} index={index} popover={this.props.popover}/>
                         })
-                        : <tr><td>There are no records</td></tr>}
+                        : <tr><td colSpan="3">There are no records</td></tr>}
                 </tbody>
             </table>
         </div>

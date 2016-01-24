@@ -10,9 +10,8 @@ export const UI_POPOVER_CLOSE = "UI_POPOVER_CLOSE";
 export const UI_POPUP_OPEN = "UI_POPUP_OPEN";
 export const UI_POPUP_CLOSE = "UI_POPUP_CLOSE";
 export const API_PROCESSING = "API_PROCESSING";
-export const API_GET_USERS = "API_GET_USERS";
-export const API_GET_USERS_FAILURE = "API_GET_USERS_FAILURE";
 export const API_GET_USERS_SUCCESS = "API_GET_USERS_SUCCESS";
+export const API_GET_USERS_FAILURE = "API_GET_USERS_FAILURE";
 export const API_UPSERT_USER_FAILURE = "UPSERT_USER_FAILURE";
 export const API_DELETE_USER_FAILURE = "DELETE_USER_FAILURE";
 
@@ -90,16 +89,6 @@ export function uiPopoverOpen(index = -1){
 export function uiPopoverClose(){
     return {
         type: UI_POPOVER_CLOSE
-    }
-}
-
-/**
- * Action creator. Request the list of users
- * @returns {Object}
- */
-export function apiGetUsers(){
-    return {
-        type: API_GET_USERS
     }
 }
 
@@ -214,20 +203,12 @@ export function apiDeleteUserThunk(id){
 
         return new Bluebird.Promise((resolve, reject) => {
             return userModel.destroy({
-                success: (resp) => {
-                    console.warn("[apiDeleteUserThunk] success",resp);
-                    return resolve(resp);
-                },
-                error: (resp) => {
-                    console.warn("[apiDeleteUserThunk] error", arguments);
-                    return reject(resp);
-                }
+                success: resolve,
+                error: reject
             });
-        }).then((resp) => {
-            console.warn(resp);
+        }).then(() => {
             return dispatch(apiGetUsersThunk());
         }).catch((resp) => {
-            console.warn(resp);
             return dispatch(apiDeleteUserFailure(resp))
         });
     }

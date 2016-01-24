@@ -23,7 +23,7 @@ export const UserListItemPopover = React.createClass({
                     <a onClick={() => {this.props.uiPopupUpdateUser(this.props.index, this.props.item)}}>Edit</a>
                 </li>
                 <li>
-                    <a onClick={() => {this.props.deleteUser(this.props.item.id)}}>Remove</a>
+                    <a onClick={() => {this.props.apiDeleteUserThunk(this.props.item.id)}}>Remove</a>
                 </li>
             </ul>
         </div>

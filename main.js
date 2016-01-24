@@ -1,6 +1,8 @@
 var path = require("path");
 var config = require("config");
 var express = require("express");
+var bodyParser = require('body-parser');
+
 var router = express.Router();
 
 config.dir.root = __dirname;
@@ -14,6 +16,8 @@ var Application = require(path.join(
 var app = new Application(config, router);
 var eApp = express();
 
+eApp.use(bodyParser.json());
+eApp.use(bodyParser.urlencoded({ extended: true }));
 eApp.use(express.static(path.join(
     config.dir.root,
     config.dir.public

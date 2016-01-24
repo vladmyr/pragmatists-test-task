@@ -7,7 +7,7 @@ import * as userActions from "../../actions/user";
 export const UserList = React.createClass({
     render: function(){
         return <div className="table-responsive">
-            <table className="table table-bordered table-condensed table-striped">
+            <table className="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>Name</th>

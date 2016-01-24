@@ -18,8 +18,8 @@ module.exports = {
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
-                loader: "react-hot!babel"
-                //loader: "babel"
+                //loader: "react-hot!babel"
+                loader: "babel"
             }
         ]
     },

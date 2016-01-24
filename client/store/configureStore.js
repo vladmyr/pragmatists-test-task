@@ -1,6 +1,6 @@
 import {Map} from "immutable";
 import {createStore, applyMiddleware} from "redux";
-import thunk from "redux-thunk";
+import thunkMiddleware from "redux-thunk";
 import userReducer from "../reducers/user";
 
 // const store = createStore(reducer);
@@ -14,8 +14,8 @@ const logState = store => next => action => {
 };
 
 const createStoreWithMiddleware = applyMiddleware(
-    //thunk,
-    logState
+    logState,
+    thunkMiddleware
 )(createStore);
 
 export default function configureStore(initialState = Map({})){

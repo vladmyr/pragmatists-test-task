@@ -1,5 +1,6 @@
 import {Map, List} from "immutable";
 import * as _ from "underscore";
+
 import * as userActions from "../actions/user";
 
 /**
@@ -20,7 +21,8 @@ const getIndexOfUserId = function(state, id = 0){
  */
 const setList = (state = Map({}), list = List()) => {
     return state
-        .set("list", List(list));
+        .set("list", List(list))
+        .set("isFetching", false);
 };
 
 /**
@@ -77,32 +79,37 @@ const uiPopupUser = (state = Map({}), isVisible = false, user = {}) => {
  * @returns {Immutable.Map}
  */
 const uiPopover = (state = Map({}), isVisible = false, index = -1) => {
-    let newState = state.set("popover", Map({
+    return state.set("popover", Map({
         isVisible: isVisible,
         index: index
     }));
+};
 
-    console.log(newState.get("popover").toObject());
-
-    return newState;
+const apiProcessing = (state = Map({})) => {
+    return state
+            .set("isProcessing", true);
 };
 
 export default function userReducer(state = Map({}), action){
     switch(action.type){
+        case userActions.API_PROCESSING:
+            return uiPopupUser(apiProcessing(state));
         case userActions.LIST_USERS:
             return uiPopupUser(setList(state, action.list));
-        case userActions.UPSERT_USER:
-            return upsertUser(state, action.user);
-        case userActions.DELETE_USER:
-            return deleteUser(uiPopover(state), action.id);
         case userActions.UI_POPUP_OPEN:
-            return uiPopupUser(uiPopover(state, false), true, action.user);
+            return uiPopupUser(uiPopover(state), true, action.user);
         case userActions.UI_POPUP_CLOSE:
             return uiPopupUser(state, false);
         case userActions.UI_POPOVER_OPEN:
             return uiPopover(state, true, action.index);
         case userActions.UI_POPOVER_CLOSE:
             return uiPopover(state);
+        case userActions.API_GET_USERS:
+            return apiProcessing(state);
+        case userActions.API_GET_USERS_SUCCESS:
+            return uiPopupUser(setList(state, action.list));
+        case userActions.API_DELETE_USER:
+            return deleteUser(uiPopover(state), action.id);
     }
 
     return state;

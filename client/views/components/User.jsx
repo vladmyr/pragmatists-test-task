@@ -8,7 +8,7 @@ import {UserPopup} from "./UserPopup";
 
 export const User = React.createClass({
     render: function(){
-        return <div className="col-lg-offset-2 col-md-offset-1 col-lg-8 col-md-10 col-sm-12">
+        return <div className="user-container col-lg-offset-2 col-md-offset-1 col-lg-8 col-md-10 col-sm-12">
             <UserList {...this.props} />
             <button className="btn btn-primary" onClick={() => this.props.uiPopupCreateUser()}>Create new</button>
             <UserPopup {...this.props} />
@@ -18,7 +18,8 @@ export const User = React.createClass({
 
 function mapStateToProps(state) {
     return {
-        list: state.get("list").toArray(),
+        isProcessing: state.get("isProcessing"),
+        list: (state.get("list") || List()).toArray(),
         popup: (state.get("popup") || Map()).toObject(),
         popover: (state.get("popover") || Map()).toObject()
     }

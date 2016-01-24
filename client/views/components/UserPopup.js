@@ -2,12 +2,13 @@ import {Map, List} from "immutable";
 import React from "react";
 import {Modal} from "react-bootstrap";
 
+import * as validator from "validator";
 import * as _ from "underscore";
 
 export const UserPopup = React.createClass({
     getInitialStateValues: function(){
         return {
-            id: 0,
+            id: undefined,
             name: "",
             email: ""
         }
@@ -30,10 +31,10 @@ export const UserPopup = React.createClass({
     onSubmit: function(e){
         e.preventDefault();
 
-        // add validation
-
-        this.props.upsertUser(this.state);
-        this.onCancel();
+        if(this.isValid()){
+            this.props.apiUpsertUserThunk(this.state);
+            this.onCancel();
+        }
     },
     resetState: function(){
         this.replaceState(this.getInitialStateValues());
@@ -44,6 +45,24 @@ export const UserPopup = React.createClass({
     },
     getIsVisible: function(){
         return this.props.popup && this.props.popup.isVisible;
+    },
+    isValid: function(){
+        var nonValidRefs = [];
+
+        _.each(this.state, function(value, key){
+            switch (key) {
+                case "name":
+                    (validator.isLength(value, { min: 2 })
+                        && validator.isAlphanumeric(value))
+                        || nonValidRefs.push(key);
+                    break;
+                case "email":
+                    validator.isEmail(value)
+                        || nonValidRefs.push(key);
+            }
+        });
+
+        return nonValidRefs;
     },
     render: function(){
         return <Modal show={this.getIsVisible()} onHide={this.onCancel}>
@@ -63,7 +82,7 @@ export const UserPopup = React.createClass({
                     </div>
                     <div className="btn-toolbar">
                         <button className="pull-right btn btn-default" type="button" onClick={() => this.onCancel()}>Cancel</button>
-                        <button className="pull-right btn btn-default" type="submit">Save</button>
+                        <button className="pull-right btn btn-default" type="submit" disabled={!!this.isValid().length}>Save</button>
                     </div>
                 </form>
             </Modal.Body>
